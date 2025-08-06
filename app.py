@@ -76,8 +76,8 @@ st.sidebar.markdown(
 
 # ---------Main content
 st.title("📰 NewsRanker Application")
-st.markdown("""#⚠️ NEWSRANKER APPLICATION WILL BE UNDER MAINTENANCE UNTIL 5th AUGUST
-            """)
+#st.markdown("""#⚠️ NEWSRANKER APPLICATION WILL BE UNDER MAINTENANCE UNTIL 5th AUGUST
+#            """)
 st.markdown("""
 **NewsRanker** is an intelligent news-ranking application developed by *WaveTransition*, leveraging advanced Machine Learning techniques.
 
