@@ -9,7 +9,7 @@ apply_style_and_logo()
 
 st.title("📊 Word Frequency Visualization")
 st.markdown("""
-    **NewsRanker**in this page provides an overview of the most frequently occurring words, offering quick insights into dominant topics and themes.
+    **NewsRanker** provides an overview of the most frequently occurring words, offering quick insights into dominant topics and themes.
    
 """)
 st.markdown(""" 
