@@ -1,20 +1,17 @@
 """
-NEWSRANKER 
+FAIR FUEL COMPARE
 app dedicated to STREAMLIT APPLICATION
 
 """
 
 # ───────────────────────────────────────────────────────────────
-
-
-
-#bash
-#cd ~/Documents/PYTHON_STREAMLIT/NEWSRANKER_CLOUD
-# py -m streamlit run app.py
+#cdm
+ #  projenv\Scripts\activate
+    #   streamlit run app.py
 
 # ───────────────────────────────────────────────────────────────
 import streamlit as st
-import pandas as pd
+#import pandas as pd
 
 # ── Load user credentials and profiles ────────────────────────
 CREDENTIALS = dict(st.secrets["auth"])
@@ -47,21 +44,11 @@ if not st.session_state["authenticated"]:
 # ── App begins after login ────────────────────────────────────
 
 # ---------------Sidebar
+from utils import apply_style_and_logo
 
-st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
-    html, body, [class*="css"] {
-        font-family: 'Montserrat', sans-serif;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-
-st.sidebar.image("logo-wavetransition_long.png")
 st.sidebar.success(f"Welcome {st.session_state['first_name']}!")
 st.sidebar.button("Logout", on_click=lambda: st.session_state.update(authenticated=False))
+
 
 # Spacer to push the link to the bottom (optional tweak for better placement)
 st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
@@ -73,37 +60,59 @@ st.sidebar.markdown(
     '</p>',
     unsafe_allow_html=True
 )
-
 # ---------Main content
-st.title("📰 NewsRanker Application")
-#st.markdown("""#⚠️ NEWSRANKER APPLICATION WILL BE UNDER MAINTENANCE UNTIL 5th AUGUST
-#            """)
-st.markdown("""
-**NewsRanker** is an intelligent news-ranking application developed by *WaveTransition*, leveraging advanced Machine Learning techniques.
+st.set_page_config(page_title="Fuel Dashboard", layout="wide")
+st.title("WAVETRANSITION NEWS RANKER")
+st.markdown(
+    """
+    <h1 style='text-align: center; color: #005680;'>
+        WAVETRANSITION NEWS RANKER
+    </h1>
+    """,
+    unsafe_allow_html=True
+)
 
-The app dynamically ranks news articles on a scale from **1 (highest relevance)** to **5 (lowest relevance)**, based on continuously updated algorithms that prioritize topics most important to WaveTransition.
+# --- Centered cover image ---
+from PIL import Image
+cover_img = Image.open("cover.png")
+st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+st.image(cover_img, use_container_width=False, width=800)  # updated
+#st.image(cover_img, use_container_width=True)  # auto fit
 
-Only news ranked between **1 and 4** are displayed.
-""")
-# Load data
-try:
-    df = pd.read_csv("daily_ranked.csv")
-    df['date'] = pd.to_datetime(df['date'], utc=True, format='ISO8601')
-    min_date = df['date'].min().strftime('%Y-%m-%d %H:%M')
-    max_date = df['date'].max().strftime('%Y-%m-%d %H:%M')
-    st.info(f"🕒 News from **{min_date}** to **{max_date}** (UTC)")
 
-    filtered_df = df[df["ranking"].isin([1, 2, 3, 4])]
-    grouped = filtered_df.groupby("ranking")
+st.markdown("</div>", unsafe_allow_html=True)
 
-    for rank, group in grouped:
-        with st.expander(f"📈 Ranking {rank}", expanded=False):
-            for _, row in group.sort_values(by='date', ascending=False).iterrows():
-                st.markdown(
-                    f"• **[{row['title']}]({row['link']})**"
-                    f"<br><sup>📅 {row['date']} | 🌐 {row['source']} | 🔤 {row['lang']}</sup>",
-                    unsafe_allow_html=True,
-                )
-except Exception as e:
-    st.error(f"Error loading news data: {e}")
+# --- Welcome text ---
+st.markdown(
+    """
+    <div style='text-align: left; font-size: 20px;'>
+        <p>Welcome to <b>FAIR FUEL COMPARE APPLICATION</b></p>
+        <p>Compare major energy fuels — <b>electricity, natural gas, diesel, CNG</b>, and <b>LNG</b> — 
+        on a consistent <b>€/MWh</b> basis across EU20 countries.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# --- Horizontal line ---
+st.markdown("---")
+
+# --- Key Features ---
+st.markdown(
+    """
+    ### 📌 **Key Features**
+    - Uses **Machine Learning** to rank energy-related news by relevance
+    - Covers **electricity, gas, renewables, oil, hydrogen**, and more
+    - Highlights **policy, market, and technology** developments
+    - Clear summaries to quickly grasp the most impactful stories
+
+    ### 🌍 **Coverage**
+    The app curates news from **global and EU sources**, 
+    offering both worldwide and European perspectives on the energy sector.
+
+    ### ⚠️ **Note**
+    This app focuses on **relevance-based ranking** of current energy news.
+    Historical analysis and in-depth market reports are covered in other applications.
+    """
+)
 
